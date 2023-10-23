@@ -10,8 +10,8 @@ void* numbers_sum(void* arg) {
         sum += i;
     }
     std::cout << "Sum of the numbers from 1 to " << n << ": " << sum << std::endl;
-    pthread_exit(0);
-    return NULL;
+    pthread_exit(0); // Exit the thread with a return code of 0 (success).
+    return NULL; // This line is not necessary after pthread_exit.
 }
 
 // Second thread: compute the product of the first n natural numbers
@@ -21,8 +21,8 @@ void* numbers_product(void* arg) {
         product *= i;
     }
     std::cout << "Product of the numbers from 1 to " << n << ": " << product << std::endl;
-    pthread_exit(0);
-    return NULL;
+    pthread_exit(0); // Exit the thread with a return code of 0 (success).
+    return NULL; // This line is not necessary after pthread_exit.
 }
 
 // Third thread: compute the average of the first n natural numbers
@@ -33,8 +33,8 @@ void* numbers_average(void* arg) {
     }
     double avg = static_cast<double>(sum) / n;
     std::cout << "Average of the numbers from 1 to " << n << ": " << avg << std::endl;
-    pthread_exit(0);
-    return NULL;
+    pthread_exit(0); // Exit the thread with a return code of 0 (success).
+    return NULL; // This line is not necessary after pthread_exit.
 }
 
 /**
@@ -51,13 +51,13 @@ void* numbers_average(void* arg) {
 int main() {
     pthread_t id1, id2, id3;
 
-    pthread_create(&id1, NULL, numbers_sum,(void*) "Sum Thread");
-    pthread_create(&id2, NULL, numbers_product,(void*) "Product Thread");
-    pthread_create(&id3, NULL, numbers_average,(void*) "Average Thread");
+    pthread_create(&id1, NULL, numbers_sum,(void*) "Sum Thread"); // Create the first thread for sum calculation.
+    pthread_create(&id2, NULL, numbers_product,(void*) "Product Thread"); // Create the second thread for product calculation.
+    pthread_create(&id3, NULL, numbers_average,(void*) "Average Thread"); // Create the third thread for average calculation.
 
-    pthread_join(id1, NULL);
-    pthread_join(id2, NULL);
-    pthread_join(id3, NULL);
+    pthread_join(id1, NULL); // Wait for the first thread to finish.
+    pthread_join(id2, NULL); // Wait for the second thread to finish.
+    pthread_join(id3, NULL); // Wait for the third thread to finish.
 
     return 0;
 }

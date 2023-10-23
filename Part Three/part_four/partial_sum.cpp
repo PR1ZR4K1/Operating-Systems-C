@@ -12,6 +12,7 @@ typedef struct {
     int result;
 } ThreadData;
 
+// Function to calculate the sum of a portion of the array.
 int partial_sum(int start, int end) {
     int sum = 0;
     for (int i = start; i < end; i++) {
@@ -20,6 +21,7 @@ int partial_sum(int start, int end) {
     return sum;
 }
 
+// Function executed by each thread.
 void* thread_func(void* arg) {
     ThreadData* data = (ThreadData*) arg;
     data->result = partial_sum(data->start, data->end);
@@ -42,13 +44,16 @@ int main() {
     for (int i = 0; i < NUM_THREADS; i++) {
         thread_data[i].start = i * segment_size; // Assign the start index of the segment.
         thread_data[i].end = thread_data[i].start + segment_size; // Assign the end index of the segment.
-        if (pthread_create(&threads[i], NULL, thread_func, &thread_data[i]) != 0) { // Create the thread and check for errors.
+
+        // Create the thread and check for errors.
+        if (pthread_create(&threads[i], NULL, thread_func, &thread_data[i]) != 0) {
             perror("pthread_create failed"); // Print an error message if pthread_create fails.
             return 1; // Exit the program with an error code.
         }
     }
 
     int total_sum = 0; // Declare a variable to store the total sum.
+
     // Wait for all threads to finish and accumulate their results.
     for (int i = 0; i < NUM_THREADS; i++) {
         pthread_join(threads[i], NULL); // Wait for the thread to finish.
